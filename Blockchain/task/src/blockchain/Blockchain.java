@@ -1,6 +1,6 @@
 package blockchain;
 
-import blockchain.domain.Block;
+import blockchain.model.Block;
 import java.util.Deque;
 import java.util.LinkedList;
 

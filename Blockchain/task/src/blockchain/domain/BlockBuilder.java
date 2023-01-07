@@ -1,5 +1,6 @@
 package blockchain.domain;
 
+import blockchain.model.Block;
 import blockchain.utils.BlockchainUtils;
 
 public class BlockBuilder {

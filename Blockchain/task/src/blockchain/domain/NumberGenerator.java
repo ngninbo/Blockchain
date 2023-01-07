@@ -1,4 +1,4 @@
-package blockchain;
+package blockchain.domain;
 
 public class NumberGenerator {
 

@@ -1,6 +1,6 @@
 package blockchain;
 
-import blockchain.domain.Block;
+import blockchain.model.Block;
 import blockchain.domain.BlockMiner;
 
 import java.util.List;
@@ -21,7 +21,8 @@ public class Main {
         int poolSize = Runtime.getRuntime().availableProcessors() - 1;
         ExecutorService executor = Executors.newFixedThreadPool(poolSize);
 
-        List<BlockMiner> miners = IntStream.rangeClosed(1, 10)
+        final int numberOfMiners = 10;
+        List<BlockMiner> miners = IntStream.rangeClosed(1, numberOfMiners)
                 .mapToObj(BlockMiner::new)
                 .collect(Collectors.toList());
 

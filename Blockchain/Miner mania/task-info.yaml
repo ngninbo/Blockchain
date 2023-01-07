@@ -253,88 +253,6 @@ files:
         }
     }
   learner_created: false
-- name: src/blockchain/domain/Block.java
-  visible: true
-  text: |
-    package blockchain.domain;
-
-    import java.util.Objects;
-
-    public class Block {
-
-        private final int id;
-        private final long timeStamp;
-        private long magicNumber;
-        private final String hashPreviousBlock;
-        private String hash;
-        private long creationDuration;
-
-        public Block(int id, long timeStamp, String hashPreviousBlock) {
-            super();
-            this.id = id;
-            this.timeStamp = timeStamp;
-            this.hashPreviousBlock = hashPreviousBlock;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public long getTimeStamp() {
-            return timeStamp;
-        }
-
-        public void setMagicNumber(long magicNumber) {
-            this.magicNumber = magicNumber;
-        }
-
-        public String getHashPreviousBlock() {
-            return hashPreviousBlock;
-        }
-
-        public String getHash() {
-            return hash;
-        }
-
-        public void setHash(String hash) {
-            this.hash = hash;
-        }
-
-        public void setCreationDuration(long duration) {
-            this.creationDuration = duration;
-        }
-
-        public boolean isChainedWith(Block block) {
-            return hash.equals(block.getHashPreviousBlock());
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof Block)) return false;
-            Block block = (Block) o;
-            return getId() == block.getId() && getTimeStamp() == block.getTimeStamp() && magicNumber == block.magicNumber
-                    && creationDuration == block.creationDuration &&
-                    Objects.equals(getHashPreviousBlock(), block.getHashPreviousBlock()) && Objects.equals(getHash(), block.getHash());
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(getId(), getTimeStamp(), magicNumber, getHashPreviousBlock(), getHash(), creationDuration);
-        }
-
-        @Override
-        public String toString() {
-            return "\nBlock:\n" +
-                    "id: " + id +
-                    "\nTimeStamp: " + timeStamp +
-                    "\nMagic number: " + magicNumber +
-                    "\nHash of the previous block\n" + hashPreviousBlock +
-                    "\nhash:\n" + hash +
-                    "\nBlock was generating for " + creationDuration + " milliseconds";
-        }
-    }
-  learner_created: true
 - name: src/blockchain/Blockchain.java
   visible: true
   text: |
@@ -481,10 +399,92 @@ files:
         }
     }
   learner_created: true
-- name: src/blockchain/NumberGenerator.java
+- name: src/blockchain/domain/BlockMiner.java
   visible: true
   learner_created: true
-- name: src/blockchain/domain/BlockMiner.java
+- name: src/blockchain/model/Block.java
+  visible: true
+  text: |
+    package blockchain.domain;
+
+    import java.util.Objects;
+
+    public class Block {
+
+        private final int id;
+        private final long timeStamp;
+        private long magicNumber;
+        private final String hashPreviousBlock;
+        private String hash;
+        private long creationDuration;
+
+        public Block(int id, long timeStamp, String hashPreviousBlock) {
+            super();
+            this.id = id;
+            this.timeStamp = timeStamp;
+            this.hashPreviousBlock = hashPreviousBlock;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public long getTimeStamp() {
+            return timeStamp;
+        }
+
+        public void setMagicNumber(long magicNumber) {
+            this.magicNumber = magicNumber;
+        }
+
+        public String getHashPreviousBlock() {
+            return hashPreviousBlock;
+        }
+
+        public String getHash() {
+            return hash;
+        }
+
+        public void setHash(String hash) {
+            this.hash = hash;
+        }
+
+        public void setCreationDuration(long duration) {
+            this.creationDuration = duration;
+        }
+
+        public boolean isChainedWith(Block block) {
+            return hash.equals(block.getHashPreviousBlock());
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof Block)) return false;
+            Block block = (Block) o;
+            return getId() == block.getId() && getTimeStamp() == block.getTimeStamp() && magicNumber == block.magicNumber
+                    && creationDuration == block.creationDuration &&
+                    Objects.equals(getHashPreviousBlock(), block.getHashPreviousBlock()) && Objects.equals(getHash(), block.getHash());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(getId(), getTimeStamp(), magicNumber, getHashPreviousBlock(), getHash(), creationDuration);
+        }
+
+        @Override
+        public String toString() {
+            return "\nBlock:\n" +
+                    "id: " + id +
+                    "\nTimeStamp: " + timeStamp +
+                    "\nMagic number: " + magicNumber +
+                    "\nHash of the previous block\n" + hashPreviousBlock +
+                    "\nhash:\n" + hash +
+                    "\nBlock was generating for " + creationDuration + " milliseconds";
+        }
+    }
+  learner_created: true
+- name: src/blockchain/domain/NumberGenerator.java
   visible: true
   learner_created: true
 feedback_link: https://hyperskill.org/learn/step/5415#comment

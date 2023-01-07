@@ -1,6 +1,7 @@
 package blockchain.domain;
 
 import blockchain.Blockchain;
+import blockchain.model.Block;
 
 import java.util.Date;
 import java.util.concurrent.Callable;
@@ -22,7 +23,7 @@ public class BlockMiner implements Callable<Block> {
                 .withMiner("miner # " + minerId)
                 .withId(blockchain.size() + 1)
                 .withTimeStamp(new Date().getTime())
-                .withHashPreviousBlock(blockchain.size() == 0 ? "0" : blockchain.getLatestHash())
+                .withHashPreviousBlock(blockchain.getLatestHash())
                 .generateHash(blockchain.getComplexity())
                 .createBlock();
 
