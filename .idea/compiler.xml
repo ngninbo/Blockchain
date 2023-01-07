@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel target="17">
+      <module name="Blockchain.Blockchain-task-build-classes-java.main" target="11" />
+      <module name="Blockchain.Blockchain-task-build-generated-sources-annotationProcessor-java.main" target="11" />
+      <module name="Blockchain.Blockchain-task-build-generated-sources-headers-java.main" target="11" />
+      <module name="Blockchain.Blockchain-task-build-reports-tests.main" target="11" />
+      <module name="Blockchain.Blockchain-task-build-test-results.main" target="11" />
+      <module name="Blockchain.Blockchain-task-build-tmp.main" target="11" />
+      <module name="Blockchain.Blockchain-task.main" target="11" />
+      <module name="Blockchain.Topics-Boxing_and_unboxing-Only_true_or_false.main" target="11" />
+      <module name="Blockchain.Topics-Boxing_and_unboxing-Theory.main" target="11" />
+      <module name="Blockchain.Topics-Executors-Asynchronous_email_sending.main" target="11" />
+      <module name="Blockchain.Topics-Executors-Theory.main" target="11" />
+      <module name="Blockchain.Topics-Memento-Roll_back.main" target="11" />
+      <module name="Blockchain.Topics-Memento-Theory.main" target="11" />
+      <module name="Blockchain.Topics-Multidimensional_array-Fill_the_matrix_by_numbers.main" target="11" />
+      <module name="Blockchain.Topics-Multidimensional_array-Swap_the_columns.main" target="11" />
+      <module name="Blockchain.Topics-Multidimensional_array-Symmetric_matrix.main" target="11" />
+      <module name="Blockchain.Topics-Multidimensional_array-Theory.main" target="11" />
+      <module name="Blockchain.Topics-Nested_classes-Create_class.main" target="11" />
+      <module name="Blockchain.Topics-Nested_classes-Find_min_and_max.main" target="11" />
+      <module name="Blockchain.Topics-Nested_classes-Make_slices.main" target="11" />
+      <module name="Blockchain.Topics-Nested_classes-Theory.main" target="11" />
+      <module name="Blockchain.Topics-Stream_pipelines-The_sum_of_odd_numbers.main" target="11" />
+      <module name="Blockchain.Topics-Stream_pipelines-The_ten_most_frequent_words.main" target="11" />
+      <module name="Blockchain.Topics-Stream_pipelines-The_total_number_of_employees.main" target="11" />
+      <module name="Blockchain.Topics-Stream_pipelines-Theory.main" target="11" />
+      <module name="Blockchain.Topics-Stream_pipelines-Using_streams_many_times.main" target="11" />
+      <module name="Blockchain.Topics-Type_Bounds-Number_holder.main" target="11" />
+      <module name="Blockchain.Topics-Type_Bounds-Pets_and_boxes.main" target="11" />
+      <module name="Blockchain.Topics-Type_Bounds-Theory.main" target="11" />
+      <module name="Blockchain.Topics-Type_Bounds-Writing_a_class.main" target="11" />
+      <module name="Blockchain.util.main" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

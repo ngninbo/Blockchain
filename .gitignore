@@ -1,0 +1,19 @@
+# Project exclude paths
+/.gradle/
+/Blockchain/task/build/
+/Blockchain/task/out/
+/Blockchain/task/out/production/classes/
+/Topics/Boxing and unboxing/Only true or false/out/
+/Topics/Boxing and unboxing/Only true or false/out/production/classes/
+/Topics/Multidimensional array/Fill the matrix by numbers/out/
+/Topics/Multidimensional array/Fill the matrix by numbers/out/production/classes/
+/Topics/Multidimensional array/Swap the columns/out/
+/Topics/Multidimensional array/Swap the columns/out/production/classes/
+/Topics/Multidimensional array/Symmetric matrix/out/
+/Topics/Multidimensional array/Symmetric matrix/out/production/classes/
+/Topics/Nested classes/Find min and max/out/
+/Topics/Nested classes/Find min and max/out/production/classes/
+/Topics/Nested classes/Make slices/out/
+/Topics/Nested classes/Make slices/out/production/classes/
+/Topics/Stream pipelines/The ten most frequent words/out/
+/Topics/Stream pipelines/The ten most frequent words/out/production/classes/
