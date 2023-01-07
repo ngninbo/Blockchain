@@ -85,7 +85,7 @@ public class Block {
                 "\nMagic number: " + magicNumber +
                 "\nHash of the previous block:\n" + hashPreviousBlock +
                 "\nHash of the block:\n" + hash +
-                "\nBlock data: " + messages +
+                "\nBlock data: " + messages + "\n" +
                 "Block was generating for " + creationDuration + " milliseconds" +
                 "\n" + outcome + "\n";
     }

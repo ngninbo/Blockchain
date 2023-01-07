@@ -6,15 +6,9 @@ public class MessageFormatter {
 
     public String format(List<String> messages) {
 
-        StringBuilder builder = new StringBuilder("\n");
-
-        for (int i = 0; i < messages.size(); i++) {
-            builder.append(messages.get(i));
-            if (i < messages.size() - 1) {
-                builder.append("\n");
-            }
-        }
-
-        return builder.toString();
+        return messages.stream()
+                .map(data -> "\n" + data)
+                .reduce((acc, data) -> acc + data)
+                .orElse("no messages");
     }
 }

@@ -41,7 +41,7 @@ public class Blockchain {
 
         if (isValid(block)) {
             adjustComplexity(block);
-            block.setMessage(blockDeque.isEmpty() ? "no messages\n" : formatter.format(collector.getMessages()));
+            block.setMessage(blockDeque.isEmpty() ? "no messages" : formatter.format(collector.getMessages()));
             blockDeque.add(block);
             collector.reset();
         }
