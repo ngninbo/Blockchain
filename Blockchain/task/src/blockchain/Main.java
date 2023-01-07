@@ -29,6 +29,7 @@ public class Main {
         while (blockchain.size() < NUMBER_OF_BLOCKS) {
             Block block = executor.invokeAny(miners);
             blockchain.push(block);
+            System.out.println(block);
         }
 
         executor.shutdown();

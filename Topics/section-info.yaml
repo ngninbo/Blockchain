@@ -6,3 +6,5 @@ content:
 - Stream pipelines
 - Memento
 - Executors
+- Parallel streams
+- Facade

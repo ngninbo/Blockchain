@@ -1,5 +1,7 @@
 package blockchain;
 
+import blockchain.domain.MessageCollector;
+import blockchain.domain.MessageFormatter;
 import blockchain.model.Block;
 import java.util.Deque;
 import java.util.LinkedList;
@@ -9,6 +11,10 @@ public class Blockchain {
     private static final Blockchain INSTANCE = new Blockchain();
 
     private final Deque<Block> blockDeque = new LinkedList<>();
+
+    private final MessageCollector collector = new MessageCollector();
+
+    private final MessageFormatter formatter = new MessageFormatter();
 
     private int complexity = 0;
 
@@ -35,9 +41,14 @@ public class Blockchain {
 
         if (isValid(block)) {
             adjustComplexity(block);
+            block.setMessage(blockDeque.isEmpty() ? "no messages\n" : formatter.format(collector.getMessages()));
             blockDeque.add(block);
-            System.out.println(block);
+            collector.reset();
         }
+    }
+
+    public synchronized void collect(String message) {
+        collector.push(message);
     }
 
     public void adjustComplexity(Block b) {

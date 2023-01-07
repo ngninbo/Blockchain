@@ -23,6 +23,11 @@
             <option value="$PROJECT_DIR$/Topics/Boxing and unboxing/Theory" />
             <option value="$PROJECT_DIR$/Topics/Executors/Asynchronous email sending" />
             <option value="$PROJECT_DIR$/Topics/Executors/Theory" />
+            <option value="$PROJECT_DIR$/Topics/Facade/Cinema Facade" />
+            <option value="$PROJECT_DIR$/Topics/Facade/Computer Facade" />
+            <option value="$PROJECT_DIR$/Topics/Facade/Log Search Facade" />
+            <option value="$PROJECT_DIR$/Topics/Facade/Smart house" />
+            <option value="$PROJECT_DIR$/Topics/Facade/Theory" />
             <option value="$PROJECT_DIR$/Topics/Memento/Roll back" />
             <option value="$PROJECT_DIR$/Topics/Memento/Theory" />
             <option value="$PROJECT_DIR$/Topics/Multidimensional array/Fill the matrix by numbers" />
@@ -33,6 +38,8 @@
             <option value="$PROJECT_DIR$/Topics/Nested classes/Find min and max" />
             <option value="$PROJECT_DIR$/Topics/Nested classes/Make slices" />
             <option value="$PROJECT_DIR$/Topics/Nested classes/Theory" />
+            <option value="$PROJECT_DIR$/Topics/Parallel streams/Prime numbers" />
+            <option value="$PROJECT_DIR$/Topics/Parallel streams/Theory" />
             <option value="$PROJECT_DIR$/Topics/Stream pipelines/The sum of odd numbers" />
             <option value="$PROJECT_DIR$/Topics/Stream pipelines/The ten most frequent words" />
             <option value="$PROJECT_DIR$/Topics/Stream pipelines/The total number of employees" />

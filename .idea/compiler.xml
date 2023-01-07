@@ -13,6 +13,11 @@
       <module name="Blockchain.Topics-Boxing_and_unboxing-Theory.main" target="11" />
       <module name="Blockchain.Topics-Executors-Asynchronous_email_sending.main" target="11" />
       <module name="Blockchain.Topics-Executors-Theory.main" target="11" />
+      <module name="Blockchain.Topics-Facade-Cinema_Facade.main" target="11" />
+      <module name="Blockchain.Topics-Facade-Computer_Facade.main" target="11" />
+      <module name="Blockchain.Topics-Facade-Log_Search_Facade.main" target="11" />
+      <module name="Blockchain.Topics-Facade-Smart_house.main" target="11" />
+      <module name="Blockchain.Topics-Facade-Theory.main" target="11" />
       <module name="Blockchain.Topics-Memento-Roll_back.main" target="11" />
       <module name="Blockchain.Topics-Memento-Theory.main" target="11" />
       <module name="Blockchain.Topics-Multidimensional_array-Fill_the_matrix_by_numbers.main" target="11" />
@@ -23,6 +28,8 @@
       <module name="Blockchain.Topics-Nested_classes-Find_min_and_max.main" target="11" />
       <module name="Blockchain.Topics-Nested_classes-Make_slices.main" target="11" />
       <module name="Blockchain.Topics-Nested_classes-Theory.main" target="11" />
+      <module name="Blockchain.Topics-Parallel_streams-Prime_numbers.main" target="11" />
+      <module name="Blockchain.Topics-Parallel_streams-Theory.main" target="11" />
       <module name="Blockchain.Topics-Stream_pipelines-The_sum_of_odd_numbers.main" target="11" />
       <module name="Blockchain.Topics-Stream_pipelines-The_ten_most_frequent_words.main" target="11" />
       <module name="Blockchain.Topics-Stream_pipelines-The_total_number_of_employees.main" target="11" />

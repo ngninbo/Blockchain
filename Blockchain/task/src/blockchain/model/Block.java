@@ -11,6 +11,7 @@ public class Block {
     private final String hashPreviousBlock;
     private final String hash;
     private long creationDuration;
+    private String messages;
     private String outcome;
 
     public Block(String miner, long id, long timeStamp, long magicNumber, String hashPreviousBlock, String hash) {
@@ -55,12 +56,19 @@ public class Block {
         return hashPreviousBlock.equals(block.getHash());
     }
 
+    public void setMessage(String messages) {
+        this.messages = messages;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Block)) return false;
         Block block = (Block) o;
-        return getId() == block.getId() && getTimeStamp() == block.getTimeStamp() && magicNumber == block.magicNumber && getCreationDuration() == block.getCreationDuration() && Objects.equals(miner, block.miner) && Objects.equals(getHashPreviousBlock(), block.getHashPreviousBlock()) && Objects.equals(getHash(), block.getHash()) && Objects.equals(outcome, block.outcome);
+        return getId() == block.getId() && getTimeStamp() == block.getTimeStamp() && magicNumber == block.magicNumber
+                && getCreationDuration() == block.getCreationDuration() && Objects.equals(miner, block.miner) &&
+                Objects.equals(getHashPreviousBlock(), block.getHashPreviousBlock()) &&
+                Objects.equals(getHash(), block.getHash()) && Objects.equals(outcome, block.outcome);
     }
 
     @Override
@@ -77,7 +85,8 @@ public class Block {
                 "\nMagic number: " + magicNumber +
                 "\nHash of the previous block:\n" + hashPreviousBlock +
                 "\nHash of the block:\n" + hash +
-                "\nBlock was generating for " + creationDuration + " milliseconds" +
+                "\nBlock data: " + messages +
+                "Block was generating for " + creationDuration + " milliseconds" +
                 "\n" + outcome + "\n";
     }
 }
