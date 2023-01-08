@@ -3,6 +3,9 @@ package blockchain;
 import blockchain.domain.MessageCollector;
 import blockchain.domain.MessageFormatter;
 import blockchain.model.Block;
+import blockchain.model.Message;
+
+import java.security.Signature;
 import java.util.Deque;
 import java.util.LinkedList;
 
@@ -17,6 +20,8 @@ public class Blockchain {
     private final MessageFormatter formatter = new MessageFormatter();
 
     private int complexity = 0;
+
+    private volatile int messageId = 0;
 
     private Blockchain() {
     }
@@ -47,10 +52,6 @@ public class Blockchain {
         }
     }
 
-    public synchronized void collect(String message) {
-        collector.push(message);
-    }
-
     public void adjustComplexity(Block b) {
 
         if (b.getCreationDuration() < 10 || blockDeque.isEmpty()) {
@@ -70,5 +71,28 @@ public class Blockchain {
 
     public String getLatestHash() {
         return blockDeque.isEmpty() ? "0" : getTail().getHash();
+    }
+
+    public synchronized void send(Message message) throws Exception {
+
+        if (message.getId() < size()) {
+            return;
+        }
+
+        if (verifySignature(message)) {
+            collector.push(message);
+        }
+    }
+
+    public synchronized int next() {
+        return ++messageId;
+    }
+
+    private boolean verifySignature(Message message) throws Exception {
+        Signature sig = Signature.getInstance("SHA1withRSA");
+        sig.initVerify(message.getSender().getPublicKey());
+        sig.update(message.getBytes());
+
+        return sig.verify(message.getSignature());
     }
 }

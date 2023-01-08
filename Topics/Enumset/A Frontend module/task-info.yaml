@@ -1,0 +1,23 @@
+type: code
+files:
+- name: src/Main.java
+  visible: true
+  text: "// Include import statements\npublic class Main {\n\n    enum Fonts {\n \
+    \       BOLD, LARGE, MEDIUM, SMALL, ITALIC, NORMAL\n    }   \n\n    EnumSet<Fonts>\
+    \ enumSet;\n\n    public static void main(String[] args) {\n\n        Main object\
+    \ = new Main();\n\n        Scanner sc = new Scanner(System.in);\n        String\
+    \ string = sc.nextLine().trim();\n\n        // Change Code below this line\n \
+    \       switch (string) {\n            case \"Main-Heading\":\n              \
+    \  break;\n            case \"Quote\":\n                    break;\n         \
+    \   case \"Paragraph\":\n                    break;\n            case \"Sub-Heading\"\
+    :\n                    break;\n            case \"Quote|BOLD\":\n            \
+    \        break;\n            default : System.out.println(\"ERROR\");\n      \
+    \              break;\n        }\n        // Change the code above this line\n\
+    \        System.out.println(object.enumSet);\n    }\n}"
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/19802#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: Sun, 08 Jan 2023 07:28:38 UTC
+record: -1

@@ -8,3 +8,5 @@ content:
 - Executors
 - Parallel streams
 - Facade
+- Currying
+- Enumset

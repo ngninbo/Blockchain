@@ -1,21 +1,23 @@
 package blockchain.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+import blockchain.model.Message;
+
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 public class MessageCollector {
 
-    private List<String> messages = new ArrayList<>();
+    private Set<Message> messages = new CopyOnWriteArraySet<>();
 
-    public void push(String message) {
+    public void push(Message message) {
         messages.add(message);
     }
 
-    public List<String> getMessages() {
+    public Set<Message> getMessages() {
         return messages;
     }
 
     public void reset() {
-        messages = new ArrayList<>();
+        messages = new CopyOnWriteArraySet<>();
     }
 }

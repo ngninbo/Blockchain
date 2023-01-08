@@ -253,6 +253,466 @@ files:
         }
     }
   learner_created: false
+- name: src/blockchain/Blockchain.java
+  visible: true
+  text: |
+    package blockchain;
+
+    import blockchain.domain.MessageCollector;
+    import blockchain.domain.MessageFormatter;
+    import blockchain.model.Block;
+    import java.util.Deque;
+    import java.util.LinkedList;
+
+    public class Blockchain {
+
+        private static final Blockchain INSTANCE = new Blockchain();
+
+        private final Deque<Block> blockDeque = new LinkedList<>();
+
+        private final MessageCollector collector = new MessageCollector();
+
+        private final MessageFormatter formatter = new MessageFormatter();
+
+        private int complexity = 0;
+
+        private Blockchain() {
+        }
+
+        public static Blockchain getInstance() {
+            return INSTANCE;
+        }
+
+        public int size() {
+            return blockDeque.size();
+        }
+
+        public Block getTail() {
+            return blockDeque.peekLast();
+        }
+
+        public int getComplexity() {
+            return complexity;
+        }
+
+        public void push(Block block) {
+
+            if (isValid(block)) {
+                adjustComplexity(block);
+                block.setMessage(blockDeque.isEmpty() ? "no messages" : formatter.format(collector.getMessages()));
+                blockDeque.add(block);
+                collector.reset();
+            }
+        }
+
+        public synchronized void collect(String message) {
+            collector.push(message);
+        }
+
+        public void adjustComplexity(Block b) {
+
+            if (b.getCreationDuration() < 10 || blockDeque.isEmpty()) {
+                complexity++;
+                b.setOutcome("N was increased to " + complexity);
+            } else if (b.getCreationDuration() > 60 && complexity > 0) {
+                complexity--;
+                b.setOutcome("N was decreased by 1");
+            } else {
+                b.setOutcome("N stays the same");
+            }
+        }
+
+        public boolean isValid(Block block) {
+            return blockDeque.isEmpty() || block.isChainedWith(getTail());
+        }
+
+        public String getLatestHash() {
+            return blockDeque.isEmpty() ? "0" : getTail().getHash();
+        }
+    }
+  learner_created: true
+- name: src/blockchain/domain/MessageFormatter.java
+  visible: true
+  text: |
+    package blockchain.domain;
+
+    import java.util.List;
+
+    public class MessageFormatter {
+
+        public String format(List<String> messages) {
+
+            return messages.stream()
+                    .map(data -> "\n" + data)
+                    .reduce((acc, data) -> acc + data)
+                    .orElse("no messages");
+        }
+    }
+  learner_created: true
+- name: src/blockchain/utils/BlockchainUtils.java
+  visible: true
+  text: |
+    package blockchain.utils;
+
+    import java.nio.charset.StandardCharsets;
+    import java.security.MessageDigest;
+    import java.util.concurrent.ThreadLocalRandom;
+
+    public class BlockchainUtils {
+
+        public static final int NUMBER_OF_BLOCKS = 5;
+
+        public static long generateMagicNumber() {
+            final long max = 99999999;
+            final long min = 10000000;
+            return ThreadLocalRandom.current().nextLong(min, max);
+        }
+
+        public static String applySha256(String input){
+            try {
+                MessageDigest digest = MessageDigest.getInstance("SHA-256");
+                /* Applies sha256 to our input */
+                byte[] hash = digest.digest(input.getBytes(StandardCharsets.UTF_8));
+                StringBuilder hexString = new StringBuilder();
+                for (byte elem: hash) {
+                    String hex = Integer.toHexString(0xff & elem);
+                    if (hex.length() == 1) hexString.append('0');
+                    hexString.append(hex);
+                }
+
+                return hexString.toString();
+            }
+            catch(Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+  learner_created: true
+- name: src/blockchain/domain/MessageSender.java
+  visible: true
+  text: |
+    package blockchain.domain;
+
+    import blockchain.model.User;
+
+    import java.util.Date;
+    import java.util.Random;
+
+    public class MessageSender implements Runnable {
+
+        private final User user;
+
+        public MessageSender(User user) {
+            this.user = user;
+        }
+
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(10);
+                user.sendMessage(generateRandomMessage());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        private String generateRandomMessage() {
+
+            int leftLimit = 97;
+            int rightLimit = 122;
+            int targetStringLength = 10;
+            Random random = new Random();
+            StringBuilder buffer = new StringBuilder(targetStringLength);
+            for (int i = 0; i < targetStringLength; i++) {
+                int randomLimitedInt = leftLimit + (int)
+                        (random.nextFloat() * (rightLimit - leftLimit + 1));
+                buffer.append((char) randomLimitedInt);
+            }
+            return buffer + " " + new Date().getTime();
+        }
+    }
+  learner_created: true
+- name: src/blockchain/domain/NumberGenerator.java
+  visible: true
+  text: |
+    package blockchain.domain;
+
+    public class NumberGenerator {
+
+        private static final NumberGenerator instance = new NumberGenerator();
+        private volatile int value = 0;
+
+        public static NumberGenerator getInstance() {
+            return instance != null ? instance : new NumberGenerator();
+        }
+
+        public synchronized int next() {
+            return ++value;
+        }
+    }
+  learner_created: true
+- name: src/blockchain/model/User.java
+  visible: true
+  text: |
+    package blockchain.model;
+
+    import blockchain.Blockchain;
+
+    public class User {
+
+        private final String name;
+        private final Blockchain blockchain = Blockchain.getInstance();
+
+        public User(String name) {
+            this.name = name;
+        }
+
+        public void sendMessage(String message){
+            blockchain.collect(String.format("%s: %s", name, message));
+        }
+    }
+  learner_created: true
+- name: src/blockchain/model/Block.java
+  visible: true
+  text: |
+    package blockchain.model;
+
+    import java.util.Objects;
+
+    public class Block {
+
+        private final long id;
+        private final String miner;
+        private final long timeStamp;
+        private final long magicNumber;
+        private final String hashPreviousBlock;
+        private final String hash;
+        private long creationDuration;
+        private String messages;
+        private String outcome;
+
+        public Block(String miner, long id, long timeStamp, long magicNumber, String hashPreviousBlock, String hash) {
+            super();
+            this.miner = miner;
+            this.id = id;
+            this.timeStamp = timeStamp;
+            this.magicNumber = magicNumber;
+            this.hashPreviousBlock = hashPreviousBlock;
+            this.hash = hash;
+        }
+
+        public long getId() {
+            return id;
+        }
+
+        public long getTimeStamp() {
+            return timeStamp;
+        }
+
+        public String getHashPreviousBlock() {
+            return hashPreviousBlock;
+        }
+
+        public String getHash() {
+            return hash;
+        }
+
+        public void setCreationDuration(long duration) {
+            this.creationDuration = duration;
+        }
+
+        public long getCreationDuration() {
+            return creationDuration;
+        }
+
+        public void setOutcome(String outcome) {
+            this.outcome = outcome;
+        }
+
+        public boolean isChainedWith(Block block) {
+            return hashPreviousBlock.equals(block.getHash());
+        }
+
+        public void setMessage(String messages) {
+            this.messages = messages;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof Block)) return false;
+            Block block = (Block) o;
+            return getId() == block.getId() && getTimeStamp() == block.getTimeStamp() && magicNumber == block.magicNumber
+                    && getCreationDuration() == block.getCreationDuration() && Objects.equals(miner, block.miner) &&
+                    Objects.equals(getHashPreviousBlock(), block.getHashPreviousBlock()) &&
+                    Objects.equals(getHash(), block.getHash()) && Objects.equals(outcome, block.outcome);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(getId(), miner, getTimeStamp(), magicNumber, getHashPreviousBlock(), getHash(), getCreationDuration(), outcome);
+        }
+
+        @Override
+        public String toString() {
+            return "Block:\n" +
+                    "Created by " + miner +
+                    "\nId: " + id +
+                    "\nTimestamp: " + timeStamp +
+                    "\nMagic number: " + magicNumber +
+                    "\nHash of the previous block:\n" + hashPreviousBlock +
+                    "\nHash of the block:\n" + hash +
+                    "\nBlock data: " + messages + "\n" +
+                    "Block was generating for " + creationDuration + " milliseconds" +
+                    "\n" + outcome + "\n";
+        }
+    }
+  learner_created: true
+- name: src/blockchain/domain/BlockMiner.java
+  visible: true
+  text: |
+    package blockchain.domain;
+
+    import blockchain.Blockchain;
+    import blockchain.model.Block;
+
+    import java.util.Date;
+    import java.util.concurrent.Callable;
+
+    public class BlockMiner implements Callable<Block> {
+
+        private final Blockchain blockchain = Blockchain.getInstance();
+        private final int minerId;
+
+        public BlockMiner(int minerId) {
+            this.minerId = minerId;
+        }
+
+        public Block mine() {
+
+            long startTime = System.currentTimeMillis();
+
+            Block block = BlockBuilder.init()
+                    .withMiner("miner # " + minerId)
+                    .withId(blockchain.size() + 1)
+                    .withTimeStamp(new Date().getTime())
+                    .withHashPreviousBlock(blockchain.getLatestHash())
+                    .generateHash(blockchain.getComplexity())
+                    .createBlock();
+
+            long duration = System.currentTimeMillis() - startTime;
+            block.setCreationDuration(duration);
+
+            return block;
+        }
+
+        @Override
+        public Block call() {
+            return mine();
+        }
+    }
+  learner_created: true
+- name: src/blockchain/domain/MessageCollector.java
+  visible: true
+  text: |
+    package blockchain.domain;
+
+    import java.util.ArrayList;
+    import java.util.List;
+
+    public class MessageCollector {
+
+        private List<String> messages = new ArrayList<>();
+
+        public void push(String message) {
+            messages.add(message);
+        }
+
+        public List<String> getMessages() {
+            return messages;
+        }
+
+        public void reset() {
+            messages = new ArrayList<>();
+        }
+    }
+  learner_created: true
+- name: src/blockchain/domain/BlockBuilder.java
+  visible: true
+  text: |
+    package blockchain.domain;
+
+    import blockchain.model.Block;
+    import blockchain.utils.BlockchainUtils;
+
+    public class BlockBuilder {
+
+        private String miner;
+        private long id;
+        private long magicNumber;
+        private long timeStamp;
+        private String hashPreviousBlock;
+        private String hash;
+
+        private BlockBuilder() {
+        }
+
+        public static BlockBuilder init() {
+            return new BlockBuilder();
+        }
+
+        public BlockBuilder withMiner(String miner) {
+            this.miner = miner;
+            return this;
+        }
+
+        public BlockBuilder withId(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public BlockBuilder withTimeStamp(long timeStamp) {
+            this.timeStamp = timeStamp;
+            return this;
+        }
+
+        public BlockBuilder withHashPreviousBlock(String hashPreviousBlock) {
+            this.hashPreviousBlock = hashPreviousBlock;
+            return this;
+        }
+
+        public BlockBuilder generateHash(int numberOfZeros) {
+            magicNumber = BlockchainUtils.generateMagicNumber();
+            String input = id + timeStamp + hashPreviousBlock;
+            hash = BlockchainUtils.applySha256(input + magicNumber);
+
+            String startingZeros = "0".repeat(numberOfZeros);
+
+            while (!hash.startsWith(startingZeros)) {
+                magicNumber = BlockchainUtils.generateMagicNumber();
+                hash = BlockchainUtils.applySha256(input + magicNumber);
+            }
+
+            return this;
+        }
+
+        public Block createBlock() {
+            return new Block(miner, id, timeStamp, magicNumber, hashPreviousBlock, hash);
+        }
+    }
+  learner_created: true
+- name: src/blockchain/model/Message.java
+  visible: true
+  learner_created: true
+- name: src/blockchain/security/GenerateKeys.java
+  visible: true
+  learner_created: true
+- name: src/blockchain/domain/MessageBuilder.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/5417#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Sun, 08 Jan 2023 12:19:48 UTC
 record: -1

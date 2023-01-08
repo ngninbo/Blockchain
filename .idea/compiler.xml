@@ -11,6 +11,13 @@
       <module name="Blockchain.Blockchain-task.main" target="11" />
       <module name="Blockchain.Topics-Boxing_and_unboxing-Only_true_or_false.main" target="11" />
       <module name="Blockchain.Topics-Boxing_and_unboxing-Theory.main" target="11" />
+      <module name="Blockchain.Topics-Currying-Curried_function.main" target="11" />
+      <module name="Blockchain.Topics-Currying-String_concatenation.main" target="11" />
+      <module name="Blockchain.Topics-Currying-Theory.main" target="11" />
+      <module name="Blockchain.Topics-Enumset-A_Frontend_module.main" target="11" />
+      <module name="Blockchain.Topics-Enumset-Basic_job_requirements.main" target="11" />
+      <module name="Blockchain.Topics-Enumset-Theory.main" target="11" />
+      <module name="Blockchain.Topics-Enumset-Vaccination.main" target="11" />
       <module name="Blockchain.Topics-Executors-Asynchronous_email_sending.main" target="11" />
       <module name="Blockchain.Topics-Executors-Theory.main" target="11" />
       <module name="Blockchain.Topics-Facade-Cinema_Facade.main" target="11" />

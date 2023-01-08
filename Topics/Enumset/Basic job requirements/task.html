@@ -1,0 +1,22 @@
+<h2>Basic job requirements</h2>
+<html>
+ <head></head>
+ <body>
+  <p></p> 
+  <p>Consider the following enum class:</p> 
+  <pre><code class="language-java">enum Language {
+    JAVA, C_PLUS_PLUS, PYTHON, C_SHARP, JAVA_SCRIPT, HTML, CSS
+}
+enum Role {
+    WEB_DEVELOPER, DATA_SCIENTIST, JAVA_EXPERT, GAME_DEVELOPER, COMPETITIVE_CODER
+}</code></pre> 
+  <p>You are working at a company that works with the given jobs, as well as the languages specified by the above enums. Based on the job, the <code class="language-java">getRequirementsByRole</code> method must return the <code class="language-java">EnumSet&lt;Language&gt;</code> of basic language requirements based on these rules:</p> 
+  <ul> 
+   <li>Web developer: HTML, CSS, JavaScript</li> 
+   <li>Data scientist: Python</li> 
+   <li>Java backend developer: Java</li> 
+   <li>Game developer: C#</li> 
+   <li>Competitive coder: C++</li> 
+  </ul>
+ </body>
+</html><br><b>Sample Input:</b><br><pre><code class="language-no-highlight">WEB_DEVELOPER</code></pre><br><b>Sample Output:</b><br><pre><code class="language-no-highlight">Job Code : WEB_DEVELOPER<br>Prerequisite : [JAVA_SCRIPT, HTML, CSS]</code></pre><br><br><br><font color="gray">Memory limit: 256 MB</font><br><font color="gray">Time limit: 5 seconds</font><br><br>
