@@ -31,6 +31,10 @@ public class Message {
         this.signature = signature;
     }
 
+    public String description() {
+        return String.format("\n%s: %s", sender.getName(), content);
+    }
+
     public User getSender() {
         return sender;
     }

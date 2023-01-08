@@ -8,7 +8,8 @@ import java.util.stream.Collectors;
 
 public class BlockchainUtils {
 
-    public static final int NUMBER_OF_BLOCKS = 5;
+    public static final int NUMBER_OF_BLOCKS = 15;
+    public static final int BLOCK_INIT_REWARD = 100;
 
     public static final List<Map.Entry<String, String>> DUMMY_MESSAGES = List.of(
             Map.entry("Tom", "Hey, I'm first!"),
@@ -28,6 +29,12 @@ public class BlockchainUtils {
     public static long generateMagicNumber() {
         final long max = 99999999;
         final long min = 10000000;
+        return ThreadLocalRandom.current().nextLong(min, max);
+    }
+
+    public static long generateAmount() {
+        final long max = 100;
+        final long min = 0;
         return ThreadLocalRandom.current().nextLong(min, max);
     }
 

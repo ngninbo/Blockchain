@@ -1,20 +1,24 @@
 package blockchain.model;
 
+import blockchain.domain.BlockMiner;
+import blockchain.formatter.TransactionFormatter;
+
 import java.util.Objects;
+import java.util.Set;
 
 public class Block {
 
     private final long id;
-    private final String miner;
+    private final BlockMiner miner;
     private final long timeStamp;
     private final long magicNumber;
     private final String hashPreviousBlock;
     private final String hash;
     private long creationDuration;
-    private String messages;
     private String outcome;
+    private Set<Transaction> transactions;
 
-    public Block(String miner, long id, long timeStamp, long magicNumber, String hashPreviousBlock, String hash) {
+    public Block(BlockMiner miner, long id, long timeStamp, long magicNumber, String hashPreviousBlock, String hash) {
         super();
         this.miner = miner;
         this.id = id;
@@ -56,8 +60,8 @@ public class Block {
         return hashPreviousBlock.equals(block.getHash());
     }
 
-    public void setMessage(String messages) {
-        this.messages = messages;
+    public void setTransactions(Set<Transaction> transactions) {
+        this.transactions = transactions;
     }
 
     @Override
@@ -79,13 +83,14 @@ public class Block {
     @Override
     public String toString() {
         return "Block:\n" +
-                "Created by " + miner +
+                "Created by " + miner.getName() +
+                "\n" + miner.getName() + " gets " + miner.getReward() + " VC" +
                 "\nId: " + id +
                 "\nTimestamp: " + timeStamp +
                 "\nMagic number: " + magicNumber +
                 "\nHash of the previous block:\n" + hashPreviousBlock +
                 "\nHash of the block:\n" + hash +
-                "\nBlock data: " + messages + "\n" +
+                "\nBlock data: " + TransactionFormatter.format(transactions) + "\n" +
                 "Block was generating for " + creationDuration + " milliseconds" +
                 "\n" + outcome + "\n";
     }

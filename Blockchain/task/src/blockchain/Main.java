@@ -1,11 +1,10 @@
 package blockchain;
 
+import blockchain.domain.BlockMiner;
 import blockchain.domain.MessageSender;
 import blockchain.model.Block;
-import blockchain.domain.BlockMiner;
 import blockchain.model.User;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -19,11 +18,11 @@ import static blockchain.utils.BlockchainUtils.NUMBER_OF_BLOCKS;
 
 public class Main {
 
+    private static final int NUMBER_OF_MINERS = 10;
     private static final Blockchain blockchain = Blockchain.getInstance();
 
-    public static void main(String[] args) throws ExecutionException, InterruptedException, NoSuchAlgorithmException {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
 
-        final int numberOfMiners = 10;
         int poolSize = Runtime.getRuntime().availableProcessors() - 1;
         ExecutorService executor = Executors.newFixedThreadPool(poolSize);
         ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
@@ -32,14 +31,15 @@ public class Main {
 
         List<String> names = List.of("Sarah", "Tom", "Nick");
 
-        for (String name : names) {
-            User user = new User(name);
-            user.generateKeys();
-            MessageSender sender = new MessageSender(user);
-            senders.add(sender);
-        }
+        names.stream()
+                .map(name -> new User(name))
+                .forEach(user -> {
+                    blockchain.add(user);
+                    senders.add(new MessageSender(user));
+                });
 
-        List<BlockMiner> miners = IntStream.rangeClosed(1, numberOfMiners)
+
+        List<BlockMiner> miners = IntStream.rangeClosed(1, NUMBER_OF_MINERS)
                 .mapToObj(BlockMiner::new)
                 .collect(Collectors.toList());
 

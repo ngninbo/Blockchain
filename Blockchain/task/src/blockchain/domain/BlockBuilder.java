@@ -3,9 +3,11 @@ package blockchain.domain;
 import blockchain.model.Block;
 import blockchain.utils.BlockchainUtils;
 
+import static blockchain.utils.BlockchainUtils.BLOCK_INIT_REWARD;
+
 public class BlockBuilder {
 
-    private String miner;
+    private BlockMiner miner;
     private long id;
     private long magicNumber;
     private long timeStamp;
@@ -19,8 +21,9 @@ public class BlockBuilder {
         return new BlockBuilder();
     }
 
-    public BlockBuilder withMiner(String miner) {
+    public BlockBuilder withMiner(BlockMiner miner) {
         this.miner = miner;
+        this.miner.setReward(BLOCK_INIT_REWARD);
         return this;
     }
 

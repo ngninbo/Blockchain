@@ -1,33 +1,32 @@
 package blockchain;
 
-import blockchain.domain.MessageCollector;
-import blockchain.domain.MessageFormatter;
+import blockchain.domain.BlockchainCollector;
+import blockchain.domain.NumberGenerator;
 import blockchain.model.Block;
-import blockchain.model.Message;
+import blockchain.model.Transaction;
+import blockchain.model.User;
 
 import java.security.Signature;
-import java.util.Deque;
-import java.util.LinkedList;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class Blockchain {
 
     private static final Blockchain INSTANCE = new Blockchain();
 
-    private final Deque<Block> blockDeque = new LinkedList<>();
+    private final Deque<Block> blockDeque = new ConcurrentLinkedDeque<>();
+    private final Map<String, User> userMap = new ConcurrentHashMap<>();
 
-    private final MessageCollector collector = new MessageCollector();
-
-    private final MessageFormatter formatter = new MessageFormatter();
+    private final BlockchainCollector<Transaction> collector = new BlockchainCollector<>();
 
     private int complexity = 0;
-
-    private volatile int messageId = 0;
 
     private Blockchain() {
     }
 
     public static Blockchain getInstance() {
-        return INSTANCE;
+        return INSTANCE != null ? INSTANCE : new Blockchain();
     }
 
     public int size() {
@@ -42,13 +41,47 @@ public class Blockchain {
         return complexity;
     }
 
+    public void add(User user) {
+        userMap.putIfAbsent(user.getName(), user);
+    }
+
+    public Map<String, User> getUserMap() {
+        return userMap;
+    }
+
     public void push(Block block) {
 
         if (isValid(block)) {
             adjustComplexity(block);
-            block.setMessage(blockDeque.isEmpty() ? "no messages" : formatter.format(collector.getMessages()));
+
+            final Set<Transaction> transactions = collector.get();
+            block.setTransactions(transactions);
+            processTransaction(transactions);
+
             blockDeque.add(block);
             collector.reset();
+        }
+    }
+
+    private void processTransaction(Set<Transaction> transactions) {
+        for (Transaction transaction : transactions) {
+            User sender = userMap.get(transaction.getSender().getName());
+
+            if (sender.getBalance() < transaction.getAmount()) {
+                return;
+            }
+
+            long balance = sender.getBalance() - transaction.getAmount();
+
+            if (balance > 0) {
+                sender.setBalance(balance);
+                userMap.replace(sender.getName(), sender);
+            }
+
+            User recipient = transaction.getReceiver();
+            balance = recipient.getBalance() + transaction.getAmount();
+            recipient.setBalance(balance);
+            userMap.replace(recipient.getName(), recipient);
         }
     }
 
@@ -73,26 +106,26 @@ public class Blockchain {
         return blockDeque.isEmpty() ? "0" : getTail().getHash();
     }
 
-    public synchronized void send(Message message) throws Exception {
+    public synchronized void receive(Transaction transaction) throws Exception {
 
-        if (message.getId() < size()) {
+        if (transaction.getId() < size()) {
             return;
         }
 
-        if (verifySignature(message)) {
-            collector.push(message);
+        if (verifySignature(transaction)) {
+            collector.push(transaction);
         }
     }
 
     public synchronized int next() {
-        return ++messageId;
+        return NumberGenerator.getInstance().next();
     }
 
-    private boolean verifySignature(Message message) throws Exception {
+    private boolean verifySignature(Transaction transaction) throws Exception {
         Signature sig = Signature.getInstance("SHA1withRSA");
-        sig.initVerify(message.getSender().getPublicKey());
-        sig.update(message.getBytes());
+        sig.initVerify(transaction.getSender().getPublicKey());
+        sig.update(transaction.getBytes());
 
-        return sig.verify(message.getSignature());
+        return sig.verify(transaction.getSignature());
     }
 }

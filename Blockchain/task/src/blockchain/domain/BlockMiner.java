@@ -2,17 +2,32 @@ package blockchain.domain;
 
 import blockchain.Blockchain;
 import blockchain.model.Block;
+import blockchain.model.Transaction;
 
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 public class BlockMiner implements Callable<Block> {
 
     private final Blockchain blockchain = Blockchain.getInstance();
-    private final int minerId;
+    private final String name;
+    private int reward;
 
     public BlockMiner(int minerId) {
-        this.minerId = minerId;
+        this.name = "miner" + minerId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getReward() {
+        return reward;
+    }
+
+    public void setReward(int reward) {
+        this.reward = reward;
     }
 
     public Block mine() {
@@ -20,7 +35,7 @@ public class BlockMiner implements Callable<Block> {
         long startTime = System.currentTimeMillis();
 
         Block block = BlockBuilder.init()
-                .withMiner("miner # " + minerId)
+                .withMiner(this)
                 .withId(blockchain.size() + 1)
                 .withTimeStamp(new Date().getTime())
                 .withHashPreviousBlock(blockchain.getLatestHash())
@@ -31,6 +46,16 @@ public class BlockMiner implements Callable<Block> {
         block.setCreationDuration(duration);
 
         return block;
+    }
+
+
+    protected void sendTransaction() {
+
+    }
+
+
+    public void setTransaction(List<Transaction> transactions) {
+
     }
 
     @Override

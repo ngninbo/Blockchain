@@ -1,15 +1,15 @@
-package blockchain.domain;
+package blockchain.formatter;
 
 import blockchain.model.Message;
 
 import java.util.Set;
 
-public class MessageFormatter {
+public class MessageFormatter extends BlockchainFormatter<Message> {
 
     public String format(Set<Message> messages) {
 
         return messages.stream()
-                .map(message -> String.format("\n%s: %s", message.getSender().getName(), message.getContent()))
+                .map(Message::description)
                 .reduce((acc, data) -> acc + data)
                 .orElse("no messages");
     }
