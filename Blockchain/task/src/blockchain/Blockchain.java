@@ -128,4 +128,8 @@ public class Blockchain {
 
         return sig.verify(transaction.getSignature());
     }
+
+    public void print() {
+        blockDeque.forEach(System.out::println);
+    }
 }

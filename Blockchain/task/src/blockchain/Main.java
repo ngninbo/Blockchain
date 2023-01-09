@@ -27,6 +27,22 @@ public class Main {
         ExecutorService executor = Executors.newFixedThreadPool(poolSize);
         ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
+        List<MessageSender> senders = initSender();
+        List<BlockMiner> miners = initMiners();
+
+        while (blockchain.size() < NUMBER_OF_BLOCKS) {
+            senders.forEach(executorService::submit);
+            Block block = executor.invokeAny(miners);
+            blockchain.push(block);
+        }
+
+        executor.shutdown();
+        executorService.shutdown();
+
+        blockchain.print();
+    }
+
+    private static List<MessageSender> initSender() {
         List<MessageSender> senders = new ArrayList<>();
 
         List<String> names = List.of("Sarah", "Tom", "Nick");
@@ -38,19 +54,12 @@ public class Main {
                     senders.add(new MessageSender(user));
                 });
 
+        return senders;
+    }
 
-        List<BlockMiner> miners = IntStream.rangeClosed(1, NUMBER_OF_MINERS)
+    private static List<BlockMiner> initMiners() {
+        return IntStream.rangeClosed(1, NUMBER_OF_MINERS)
                 .mapToObj(BlockMiner::new)
                 .collect(Collectors.toList());
-
-        while (blockchain.size() < NUMBER_OF_BLOCKS) {
-            senders.forEach(executorService::submit);
-            Block block = executor.invokeAny(miners);
-            blockchain.push(block);
-            System.out.println(block);
-        }
-
-        executor.shutdown();
-        executorService.shutdown();
     }
 }

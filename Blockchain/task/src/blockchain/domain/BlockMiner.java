@@ -2,10 +2,8 @@ package blockchain.domain;
 
 import blockchain.Blockchain;
 import blockchain.model.Block;
-import blockchain.model.Transaction;
 
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.Callable;
 
 public class BlockMiner implements Callable<Block> {
@@ -46,16 +44,6 @@ public class BlockMiner implements Callable<Block> {
         block.setCreationDuration(duration);
 
         return block;
-    }
-
-
-    protected void sendTransaction() {
-
-    }
-
-
-    public void setTransaction(List<Transaction> transactions) {
-
     }
 
     @Override
