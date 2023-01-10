@@ -23,7 +23,6 @@ public class BlockBuilder {
 
     public BlockBuilder withMiner(BlockMiner miner) {
         this.miner = miner;
-        this.miner.setReward(BLOCK_INIT_REWARD);
         return this;
     }
 
@@ -53,6 +52,8 @@ public class BlockBuilder {
             magicNumber = BlockchainUtils.generateMagicNumber();
             hash = BlockchainUtils.applySha256(input + magicNumber);
         }
+
+        this.miner.setReward(BLOCK_INIT_REWARD);
 
         return this;
     }

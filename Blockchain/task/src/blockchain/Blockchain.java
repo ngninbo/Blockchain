@@ -126,7 +126,7 @@ public class Blockchain {
         sig.initVerify(transaction.getSender().getPublicKey());
         sig.update(transaction.getBytes());
 
-        return sig.verify(transaction.getSignature());
+        return sig.verify(transaction.decodeSignature());
     }
 
     public void print() {

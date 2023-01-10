@@ -45,7 +45,7 @@ public class Main {
     private static List<MessageSender> initSender() {
         List<MessageSender> senders = new ArrayList<>();
 
-        List<String> names = List.of("Sarah", "Tom", "Nick");
+        List<String> names = List.of("Sarah", "Tom", "Nick", "Joe");
 
         names.stream()
                 .map(name -> new User(name))

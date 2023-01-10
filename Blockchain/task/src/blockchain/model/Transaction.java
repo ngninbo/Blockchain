@@ -34,7 +34,7 @@ public class Transaction {
         return amount;
     }
 
-    public byte[] getSignature() {
+    public byte[] decodeSignature() {
         return Base64.getDecoder().decode(signature);
     }
 
