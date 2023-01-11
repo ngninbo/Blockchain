@@ -64,25 +64,21 @@ public class Blockchain {
     }
 
     private void processTransaction(Set<Transaction> transactions) {
-        for (Transaction transaction : transactions) {
-            User sender = userMap.get(transaction.getSender().getName());
 
-            if (sender.getBalance() < transaction.getAmount()) {
-                return;
-            }
+        transactions.stream()
+                .filter(transaction -> transaction.getSender().getBalance() > transaction.getAmount())
+                .forEach(transaction -> {
+                    User sender = userMap.get(transaction.getSender().getName());
 
-            long balance = sender.getBalance() - transaction.getAmount();
+                    long balance = sender.getBalance() - transaction.getAmount();
+                    sender.setBalance(balance);
+                    userMap.replace(sender.getName(), sender);
 
-            if (balance > 0) {
-                sender.setBalance(balance);
-                userMap.replace(sender.getName(), sender);
-            }
-
-            User recipient = transaction.getReceiver();
-            balance = recipient.getBalance() + transaction.getAmount();
-            recipient.setBalance(balance);
-            userMap.replace(recipient.getName(), recipient);
-        }
+                    User recipient = transaction.getReceiver();
+                    balance = recipient.getBalance() + transaction.getAmount();
+                    recipient.setBalance(balance);
+                    userMap.replace(recipient.getName(), recipient);
+                });
     }
 
     public void adjustComplexity(Block b) {
