@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.stream.LongStream;
 
 class Main {
 
@@ -11,7 +12,9 @@ class Main {
      * @return sum of odd numbers
      */
     public static long sumOfOddNumbersInRange(long start, long end) {
-        // write your code here
+        return LongStream.rangeClosed(start, end)
+                .filter(value -> value % 2 != 0)
+                .sum();
     }
 
     // Don't change the code below

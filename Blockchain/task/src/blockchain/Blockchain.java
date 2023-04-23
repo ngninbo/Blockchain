@@ -5,8 +5,10 @@ import blockchain.domain.NumberGenerator;
 import blockchain.model.Block;
 import blockchain.model.Transaction;
 import blockchain.model.User;
+import blockchain.utils.ResourceProperties;
 
 import java.security.Signature;
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
@@ -17,6 +19,7 @@ public class Blockchain {
 
     private final Deque<Block> blockDeque = new ConcurrentLinkedDeque<>();
     private final Map<String, User> userMap = new ConcurrentHashMap<>();
+    private static final ResourceProperties PROPERTIES = ResourceProperties.getInstance();
 
     private final BlockchainCollector<Transaction> collector = new BlockchainCollector<>();
 
@@ -85,12 +88,12 @@ public class Blockchain {
 
         if (b.getCreationDuration() < 10 || blockDeque.isEmpty()) {
             complexity++;
-            b.setOutcome("N was increased to " + complexity);
+            b.setOutcome(MessageFormat.format(PROPERTIES.get("blockchain_complexity_increment"), complexity));
         } else if (b.getCreationDuration() > 60 && complexity > 0) {
             complexity--;
-            b.setOutcome("N was decreased by 1");
+            b.setOutcome(MessageFormat.format(PROPERTIES.get("blockchain_complexity_decrement"), 1));
         } else {
-            b.setOutcome("N stays the same");
+            b.setOutcome(PROPERTIES.get("blockchain_complexity_identity"));
         }
     }
 
@@ -104,7 +107,7 @@ public class Blockchain {
 
     public synchronized void receive(Transaction transaction) throws Exception {
 
-        if (transaction.getId() < size()) {
+        if (transaction.getId() < size() || transaction.getAmount() <= 0) {
             return;
         }
 

@@ -2,7 +2,9 @@ package blockchain.model;
 
 import blockchain.domain.BlockMiner;
 import blockchain.formatter.TransactionFormatter;
+import blockchain.utils.ResourceProperties;
 
+import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.Set;
 
@@ -82,16 +84,8 @@ public class Block {
 
     @Override
     public String toString() {
-        return "Block:\n" +
-                "Created by " + miner.getName() +
-                "\n" + miner.getName() + " gets " + miner.getReward() + " VC" +
-                "\nId: " + id +
-                "\nTimestamp: " + timeStamp +
-                "\nMagic number: " + magicNumber +
-                "\nHash of the previous block:\n" + hashPreviousBlock +
-                "\nHash of the block:\n" + hash +
-                "\nBlock data: " + TransactionFormatter.format(transactions) + "\n" +
-                "Block was generating for " + creationDuration + " milliseconds" +
-                "\n" + outcome + "\n";
+        return MessageFormat.format(ResourceProperties.getInstance().get("blockchain_block_info"),
+                miner.getName(), miner.getName(), miner.getReward(), id, String.valueOf(timeStamp), String.valueOf(magicNumber), hashPreviousBlock, hash,
+                TransactionFormatter.format(transactions), creationDuration, outcome);
     }
 }

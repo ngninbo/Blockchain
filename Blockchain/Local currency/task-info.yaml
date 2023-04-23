@@ -985,6 +985,24 @@ files:
 - name: src/blockchain/domain/TransactionBuilder.java
   visible: true
   learner_created: true
+- name: src/blockchain/domain/BlockchainClient.java
+  visible: true
+  learner_created: true
+- name: src/blockchain/domain/Client.java
+  visible: true
+  learner_created: true
+- name: src/main/resources/messages.properties
+  visible: true
+  learner_created: true
+- name: src/blockchain/utils/ResourceProperties.java
+  visible: true
+  learner_created: true
+- name: src/main/resources/messages_en.properties
+  visible: true
+  learner_created: true
+- name: src/main/resources/messages_de.properties
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/5418#comment
 status: Solved
 feedback:
